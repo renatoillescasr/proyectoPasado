@@ -1,0 +1,195 @@
+{{#extend "stylesheets"}}
+    <link href="/stylesheets/sucursal.css" rel="stylesheet">
+    <link href="/stylesheets/listaDeResultados.css" rel="stylesheet">
+    <style media="screen">
+        .inputResutlts {
+            width: 80%;
+        }
+        .form-group.ingresarResults button{
+            display: inline-block;
+            width: 25%;
+        }
+        @media screen and (max-width: 600px) {
+            .form-group.ingresarResults button{
+                display: block;
+                width: 50%;
+            }
+        }
+        body{
+          background-color:#F3F6E9 ;
+        }
+    </style>
+{{/extend}}
+
+<header>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.ejs">
+                    S<span class="fa fa-flask fa-lg" aria-hidden="true">P</span>
+                </a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class=""><a href="/laboratorista">Lista de resultados</a></li>
+                    <li class="action"><a href="#">Ingresar resultados</a></li>
+                    <li class=""><a href="/logout">Cerrar sesión</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+{{!-- <section align="center">
+    <h1>Salud Primero S.A.</h1>
+    <p>Gestión de Resultados de Exámenes Médicos.</p>
+</section> --}}
+<div class="container" id="muestra">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <section align="center">
+                <h3>Muestra</h3>
+            </section>
+            <br>
+            <div class="form-group">
+                <label for="codBarras">Codigo</label>
+                <input type="text" class="form-control" id="codBarras" style="text-align: center" disabled>
+                <input name="_method" type="hidden" value="{{muestra_id}}" id="muestra_id">
+            </div>
+            <div id="estado-group" class="form-group">
+                <label for="codBarras">Estado</label>
+                <input type="text" class="form-control" id="estado" disabled>
+                <button class="form-control btn btn-success" type="button" name="button" style="display: none" id="notificar">
+                    Notificar Envio
+                </button>
+            </div>
+            <div id="estadoRadios" class="form-group" style="display: none">
+                <label for="codBarras">Estado</label>
+                <div class="row">
+                    <div class="col-xs-6" style="padding-rigth: 4px">
+                        <button class="form-control btn btn-success" type="button" name="button" id="cancelar">
+                            Cancelar
+                        </button>
+                    </div>
+                    <div class="col-xs-6" style="padding-left: 4px">
+                        <button class="form-control btn btn-success" type="button" name="button" id="guardar-notif">
+                            Guardar
+                        </button>
+                    </div>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="optionsRadios" id="optRecibido" value="recibido" >
+                        Recibido
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="optionsRadios" id="optInconveniente" value="inconveniente" >
+                        Hubo un inconveniente
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="codBarras">Tipo De Muestra</label>
+                <input type="text" class="form-control" id="tipo" disabled>
+            </div>
+            <div class="form-group">
+                <label for="codBarras">Laboratorio Destino</label>
+                <input type="text" class="form-control" id="lab" disabled>
+            </div>
+            <h2>Examenes</h2>
+            {{#each examenes}}
+                <div class="examenes panel panel-success">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading" style="position: relative">
+                        {{this.nombre}}
+                    </div>
+                    <!-- List group -->
+                    <ul class="list-group">
+                        <li class="list-group-item" >
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <strong>Parametro</strong>
+                                </div>
+                                <div class="col-xs-3">
+                                    <strong>Unidad</strong>
+                                </div>
+                                <div class="col-xs-3">
+                                    <strong>Resultado</strong>
+                                </div>
+                                <div class="col-xs-3">
+                                    <strong>Val_ref</strong>
+                                </div>
+                            </div>
+                        </li>
+                        {{#each this.resultados}}
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        {{this.parametro}}
+                                    </div>
+                                    <div class="col-xs-3">
+                                        {{this.unidad}}
+                                    </div>
+                                    <div class="col-xs-3">
+                                        {{this.resultado}}
+                                    </div>
+                                    <div class="col-xs-3">
+                                        {{this.val_ref}}
+                                    </div>
+                                </div>
+                            </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            {{/each}}
+            {{#if flagIngresar}}
+                <div id="ingResults-group1" class="form-group ingresarResults" >
+                    <button class="form-control btn btn-success" type="button" name="button" id="ingresarResults">
+                        Ingresar Resultados
+                    </button>
+                </div>
+                <div id="ingResults-group2" class="form-group ingresarResults" style="display:none">
+                    <button class="form-control btn btn-success" type="button" name="button" id="cancelarResults">
+                        cancelar
+                    </button>
+                    <button class="form-control btn btn-success" type="button" name="button" id="guardarResults">
+                        Guardar
+                    </button> `
+                </div>
+            {{/if}}
+        </div>
+    </div>
+</div>
+
+
+
+{{#extend "scripts"}}
+    <script src="/javascripts/laboratoristaScript.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var muestra_id = $("#muestra_id").val();
+            var path = '/muestras/' + muestra_id;
+            $.getJSON(path, function(muestra) {
+                console.log(muestra);
+                $("#codBarras").val(muestra.cod_barras);
+                $("#estado").val(muestra.estado);
+                $("#tipo").val(muestra.tipo);
+                $("#lab").val(muestra.lab_asignado);
+                if (muestra.estado == "terminado") {
+                    $("#notificar").hide();
+                } else {
+                    $("#notificar").show();
+                }
+                console.log("cant extamenes: " + muestra.examenes.length);
+            })
+        });
+    </script>
+{{/extend}}

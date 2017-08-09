@@ -1,0 +1,357 @@
+{{#extend "stylesheets"}}
+    <link href="/stylesheets/operario.css" rel="stylesheet">
+    <link href="/stylesheets/misdatos.css" rel="stylesheet">
+    <style>
+    section.container.containerMin{
+      padding-bottom: 0;
+    }
+  </style>
+{{/extend}}
+    <header>
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/operario/pacientes">
+                        S<span class="fa fa-flask fa-lg" aria-hidden="true"></span>P
+                    </a>
+                </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="action"><a href="/operario/pacientes">Pacientes</a></li>
+                        <li class=""><a href="/operario/muestras">Muestras</a></li>
+                        <li class=""><a href="/operario/estadisticas">Estadísticas</a></li>
+                        <li class=""><a href="/logout">Cerrar sesión</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <section class="container containerMin">
+        <div class="row" id="create-search">
+            <div class="col-md-6" id="muestra-create">
+                <a href="/operario/paciente-crear">
+                    <span class="fa fa-plus-circle fa-3x"></span>
+                    <span id="text" class="fa">Registrar nuevo paciente</span>
+                </a>
+            </div>
+            <!--div class="col-md-6 form-group" id="muestra-search">
+                <label for="centro medico">Cédula del Paciente</label>
+                <select class="form-control" id="inputcedula">
+                    <option selected disabled>-Selecionar-</option>
+                </select>
+            </div-->
+        </div>
+    </section>
+
+    <div class="container" id="tabla1">
+        <section align="center">
+            <h3>Lista de Pacientes</h3><br>
+        </section>
+
+        <div class="table-responsive">
+            <table class="table table-striped" id="table">
+                <thead>
+                    <tr id="listaEncabezado">
+                        <td>Cédula</td>
+                        <td>Nombres</td>
+                        <td>Apellidos</td>
+                        <td>Dirección</td>
+                        <td>E-mail</td>
+                        <td>Acción</td>
+                    </tr>
+                </thead>
+                <tbody id="tabla">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <section class="container containerMin" id="content">
+        <!--table class="table table-hover" id="tableMuestras">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Pasciente</th>
+                    <th>Enfermedad</th>
+                    <th>Lab Destino</th>
+                    <th>Modificado</th>
+                    <th>Editar/Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table-->
+
+        <form id="formPaciente">
+            <div class="row">
+                <fieldset>
+                    <div class="col-sm-6" align="center">
+                        <img id="preview" align="center"> </img>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group row">
+                            <label for="nombre" class="col-sm-2 form-control-label">Nombres</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="nombres" class="form-control letras" id="nombre" placeholder="Nombre" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="apellido" class="col-sm-2 form-control-label ">Apellidos</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="apellidos" class="form-control letras" id="apellido" placeholder="Apellidos" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="ced" class="col-sm-2 form-control-label">Cédula</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="cedula" class="form-control" id="ced" placeholder="Cédula" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="dir" class="col-sm-2 form-control-label">Dirección</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="direccion1" class="form-control" id="dir" placeholder="Dirección">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="telf" class="col-sm-2 form-control-label">Teléfonos</label>
+                            <div class="col-sm-10" id="telefonos">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputEmail3" class="col-sm-2 form-control-label">Email</label>
+                            <div class="col-sm-10">
+                                <input type="email" name="correo" class="form-control" id="inputEmail3" placeholder="Email">
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <button class="btn btn-default" type="submit" id="botonGuardar">Guardar</button>
+        </form>
+        <!--div class="col-sm-offset-3 col-sm-3">
+            <button class="btn btn-default" type="submit" name="button" id="botonEditar">Editar</button>
+        </div>
+        <div class="col-sm-3">
+            <button class="btn btn-default" type="submit" name="button" id="botonEliminar">Eliminar</button>
+        </div-->
+    </section>
+
+{{#extend "scripts"}}
+    <script src="/javascripts/operario.js" charset="utf-8"></script>
+    <script>
+        $(document).ready(function() {
+
+            $("#formPaciente").hide();
+            $("#tabla1").show();
+            //$("#botonEditar").hide();
+            //$("#botonEliminar").hide();
+            $("#botonGuardar").hide();
+            /*
+            $("#botonEditar").click(function() {
+
+                $('fieldset').attr('disabled', false);
+                $('input#ced.form-control').attr('disabled', true);
+                $("#botonGuardar").show();
+                $("#botonEditar").hide();
+                $("#botonEliminar").hide();
+            });*/
+
+            //$('fieldset').attr('disabled', true);
+            var url = "/pacientes/enlistarPacientes";
+            //var data = $("#inputcedula").serialize();
+            var data = $("#table").serialize();
+            //var listaTelefonos = $('<ul class="list-inline"></ul>');
+
+            $.ajax({
+                type: 'GET',
+                url: url,
+                data: data,
+
+                success: function(respuesta) {
+                    console.log(respuesta);
+                    respuesta.forEach(function(item) {
+                        //var $btn = $('<a class="btn btn-primary btn-sm">Modificar</a>');
+                        var $btn = $('<button type="button" class="btn btn-default btn-xs edit" title="Editar"><span class="glyphicon glyphicon-pencil"></span></button><button type="button" class="btn btn-default btn-xs delete" title="Eliminar"><span class="glyphicon glyphicon-trash"></span></button>');
+                    $btn.attr('href', '#');
+                    var $tr = $("<tr>");
+                    $tr.append($('<td>').text(item.cedula).attr('class', 'cedula'))
+                        .append($('<td>').text(item.nombres).attr('class', 'nombres'))
+                        .append($('<td>').text(item.apellidos).attr('class', 'apellidos'))
+                        .append($('<td>').text(item.direccion).attr('class', 'direccion'))
+                        .append($('<td>').text(item.correo).attr('class', 'email'))
+                        .append($('<td>').html($btn));
+
+                    $("#tabla").append($tr);
+                        /*var $option = $("<option></option>");
+                        $option.text(item.cedula);
+                        $("#inputcedula").append($option);*/
+                    })
+
+
+                    /*$("#inputcedula").change(function() {
+                        listaTelefonos.empty();
+                        //$("#telefonos").empty();
+                        respuesta.forEach(function(item) {
+                            if ($("#inputcedula").val() == item.cedula) {
+                                $("#formPaciente").show();
+                                $('fieldset').attr('disabled', true);
+                                $("#botonEditar").show();
+                                $("#botonEliminar").show();
+                                $("#botonGuardar").hide();
+                                $("#nombre").val(item.nombres);
+                                $("#apellido").val(item.apellidos);
+                                $("#ced").val(item.cedula);
+                                $("#dir").val(item.direccion);
+                                $('img#preview').attr("src", item.foto);
+
+                                item.telefonos.forEach(function(item) {
+
+                                    var telefono = $('<input type="number" class="form-control" id="telf" placeholder="Teléfono"></input>');
+                                    telefono.attr("value", item);
+                                    listaTelefonos.append(telefono);
+                                })
+
+                                $("#telefonos").append(listaTelefonos);
+                                $("#inputEmail3").val(item.correo);
+                                //$("#inputPaciente").val(item.nombres);
+                            }
+                        })
+                    })*/
+
+                    /*$("#inputcedula").change(function() {
+                        respuesta.forEach(function(item) {
+                            if ($("#inputcedula").val() == item.cedula) {
+                                //$("#inputPacienteap").val(item.apellidos);
+                            }
+                        })
+                    })*/
+                    $("#table").DataTable({
+                        aoColumnDefs: [{
+                            "aTargets": [0],
+                            "bSortable": true
+                        }, {
+                            "aTargets": [3],
+                            "asSorting": ["asc"],
+                            "bSortable": true
+                        },{ "bSortable": false, "aTargets": [ 5 ] } ],
+                        "language": {
+                            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                        }
+                    });
+                }
+
+
+
+            });
+
+
+        });
+        $("#formPaciente").submit(function(e) {
+
+            e.preventDefault();
+            var id = $("#ced").val();
+            var url = "/pacientes/modificar/" + id;
+            var data = $("#formPaciente").serialize();
+
+            $.ajax({
+                type: 'PUT',
+                url: url,
+                data: data,
+                success: function(respuesta) {
+                    window.location = "/operario/pacientes";
+                }
+            });
+            window.location = "/operario/pacientes";
+        });
+
+        //MODIFICAR PACIENTE
+         $("#tabla").on("click", ".btn.btn-default.btn-xs.edit", function (e) {
+            var listaTelefonos = $('<ul class="list-inline"></ul>');
+            console.log("hola");
+            //$(this).parent().parent().remove();
+            var id = $(this).parent().parent().children('td.cedula').text();
+            //alert(cedula);
+            e.preventDefault();
+            //var id = $("#inputcedula").val();
+            //console.log(id);
+            //var url = "/pacientes/:"+id;
+            var url = "/pacientes/" + id;
+            //var data = $("#formPaciente").serialize();
+
+            $.ajax({
+                type: 'GET',
+                url: url,
+                //data: data,
+                success: function(respuesta) {
+                    console.log(respuesta);
+                    listaTelefonos.empty();
+                    respuesta.forEach(function(item) {
+                                $("#formPaciente").show();
+                                $("#tabla1").hide();
+                                $('fieldset').attr('disabled', false);
+                                $('input#ced.form-control').attr('disabled', true);
+                                $('img#preview').attr('disabled', true);
+                                $("#botonGuardar").show();
+                                $("#nombre").val(item.nombres);
+                                $("#apellido").val(item.apellidos);
+                                $("#ced").val(item.cedula);
+                                $("#dir").val(item.direccion);
+                                $('img#preview').attr("src", item.foto);
+
+                                item.telefonos.forEach(function(item) {
+
+                                    var telefono = $('<input type="text" onkeypress="return valida(event)" maxlength="10"  minlength="7" name="telefono" class="form-control" id="telf" placeholder="Teléfono"></input>');
+                                    telefono.attr("value", item);
+                                    listaTelefonos.append(telefono);
+                                })
+
+                                $("#telefonos").append(listaTelefonos);
+                                $("#inputEmail3").val(item.correo);
+                                //$("#inputPaciente").val(item.nombres);
+
+                        })
+                }
+            });
+            //window.location = "/operario/pacientes";
+        });
+
+
+        //ELIMINAR PACIENTE
+         $("#tabla").on("click", ".btn.btn-default.btn-xs.delete", function (e) {
+            if(!confirm("Está seguro de eliminar el paciente?")){
+                return;
+            }
+            //$(this).parent().parent().remove();
+            var id = $(this).parent().parent().children('td.cedula').text();
+            //alert(cedula);
+            e.preventDefault();
+            //var id = $("#inputcedula").val();
+            console.log(id);
+            //var url = "/pacientes/:"+id;
+            var url = "/pacientes/" + id;
+            //var data = $("#formPaciente").serialize();
+
+            $.ajax({
+                type: 'DELETE',
+                url: url,
+                //data: data,
+                success: function(respuesta) {
+                    window.location = "/operario/pacientes";
+                }
+            });
+            window.location = "/operario/pacientes";
+        });
+
+
+    </script>
+{{/extend}}

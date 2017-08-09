@@ -1,0 +1,280 @@
+{{#extend "stylesheets"}}
+  <style>
+    #content{
+      padding-top: 0%;
+    }
+    body{
+      background-color:#F3F6E9 ;
+    }
+    section.container.containerMin{
+      padding-top: 1%;
+
+    }
+  </style>
+{{/extend}}
+<header>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/operario/pacientes">
+                    S<span class="fa fa-flask fa-lg" aria-hidden="true"></span>P
+                </a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class=""><a href="/operario/pacientes">Pacientes</a></li>
+                    <li class="action"><a href="/operario/muestras">Muestras</a></li>
+                    <li class=""><a href="/operario/estadisticas">Estadísticas</a></li>
+                    <li class=""><a href="/logout">Cerrar sesión</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<section class="container containerMin">
+    <h2>Registro de Muestra</h2>
+    <!--button id="btnNuevoPaciente" class="btn btn-success" onclick="location='/operario/paciente-crear'">Nuevo Paciente</button-->
+</section>
+<p id="new_paciente"><a href="/operario/paciente-crear">Nuevo Paciente</a></p>
+<section class="container containerMin" id="content">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <form id="muestraCreateForm">
+            <div class="form-group">
+                <label for="centro medico">Cédula del Paciente</label>
+                <select name="cedula" class="form-control" id="inputcedula">
+                    <option selected disabled>-Seleccionar-</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="inpuPaciente">Nombres del Paciente</label>
+                <input name="nombres" type="text" class="form-control" id="inputPaciente" required="" disabled>
+            </div>
+            <div class="form-group">
+                <label for="inpuPaciente">Apellidos del Paciente</label>
+                <input name="apellidos" type="text" class="form-control" id="inputPacienteap" required="" disabled>
+            </div>
+            <div class="form-group">
+                <label for="centro medico">Centro Médico</label>
+                <select name="centromedico" class="form-control" id="inputCentroMedico">
+                    <option selected disabled>-Seleccionar-</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="centro medico">Laboratorio de Destino</label>
+                <select name="laboratorio" class="form-control" id="inpuLaboratorio">
+                    <option selected disabled>-Seleccionar-</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="inputmuestra">Tipo de Muestra</label>
+                <select name="muestra" class="form-control" id="inputmuestra">
+                    <option  disabled>-Seleccionar-</option>
+                    <option selected>Sangre</option>
+                    <option>Orina</option>
+                    <option>Heces</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="inpuExamenes">Examenes a Realizar</label>
+                <div id="examenes-realizar">
+
+                </div>
+            </div>
+            <div>
+                <input id="codigo_barras" name="codigobarras" hidden>
+                <button id="btn-generar-codigo-barras" class="btn" type="button">Generar codigo de barras</button>
+                <br/><br/>
+                <table id="contenedor-codigo-barras">
+                    <tr>
+                        <td style='padding:10px; text-align:center; font-size:15px; font-family:Arial,Helvetica;'>
+                        </td>
+                        <td>
+                            <img id="imagen-codigo-barras" src='http://barcode.tec-it.com/barcode.ashx?data=ABC-abc-1234&code=Code128&dpi=96' alt='Barcode Generator TEC-IT' />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <button type="button" class="btn btn-default" onclick="location='/operario/muestras'">Cancelar</button>
+            <button type="submit" class="btn btn-default">Guardar</button>
+        </form>
+    </div>
+    <div class="col-md-2"> </div>
+</section>
+
+{{#extend "scripts"}}
+    <script>
+        $().ready(function() {
+
+            //Carga las cedulas de los Pacientes.
+            var url = "/pacientes/enlistarPacientes";
+            var data = $("#inputcedula").serialize();
+            $.ajax({
+                type: 'GET',
+                url: url,
+                data: data,
+
+                success: function(respuesta) {
+                    respuesta.forEach(function(item) {
+                        var $option = $("<option></option>");
+                        $option.text(item.cedula);
+                        $("#inputcedula").append($option);
+                    })
+                    $("#inputcedula").change(function() {
+                        respuesta.forEach(function(item) {
+                            if ($("#inputcedula").val() == item.cedula) {
+                                $("#inputPaciente").val(item.nombres);
+                            }
+                        })
+
+                    })
+                    $("#inputcedula").change(function() {
+                        respuesta.forEach(function(item) {
+                            if ($("#inputcedula").val() == item.cedula) {
+                                $("#inputPacienteap").val(item.apellidos);
+                            }
+                        })
+
+                    })
+                }
+            });
+
+            //Cargar los Centros Medicos.
+            var url = "/pacientes/centrosMed";
+            var data = $("#inputCentroMedico").serialize();
+            $.ajax({
+                type: 'GET',
+                url: url,
+                data: data,
+
+                success: function(respuesta) {
+                    respuesta.forEach(function(item) {
+                            var $option = $("<option></option>");
+                            $option.text(item.nombre);
+                            $("#inputCentroMedico").append($option);
+                        })
+                    //Cuando cambio un Centro Medico.
+                    $("#inputCentroMedico").change(function() {
+                        respuesta.forEach(function(item) {
+                            if ($("#inputCentroMedico").val() == item.nombre) {
+
+                                if ($("#inputmuestra").val() == "Sangre") {
+
+                                    $('#examenes-realizar').empty();
+                                    for (i = 0; i < item.descripcion.Sangre.length; i++) {
+                                        var text = item.descripcion.Sangre[i];
+                                        $('#examenes-realizar').append('<input name="examenesrealizar" type="checkbox" value="'+text+'"/>'+text+'<br />');
+                                    }
+
+                                } else if ($("#inputmuestra").val() == "Orina") {
+
+                                    $('#examenes-realizar').empty();
+                                    for (i = 0; i < item.descripcion.Orina.length; i++) {
+                                        var text = item.descripcion.Orina[i];
+                                        $('#examenes-realizar').append('<input name="examenesrealizar" type="checkbox" value="'+text+'"/>'+text+'<br />');
+                                    }
+
+                                } else if ($("#inputmuestra").val() == "Heces") {
+
+                                    $('#examenes-realizar').empty();
+                                    for (i = 0; i < item.descripcion.Heces.length; i++) {
+                                        var text = item.descripcion.Heces[i];
+                                        $('#examenes-realizar').append('<input name="examenesrealizar" type="checkbox" value="'+text+'"/>'+text+'<br />');
+                                    }
+                                }
+                            }
+                        })
+                    })
+                    //Cuando cambio el tipo de Muestra.
+                    $("#inputmuestra").change(function() {
+                        respuesta.forEach(function(item) {
+                            if ($("#inputCentroMedico").val() == item.nombre) {
+
+                                if ($("#inputmuestra").val() == "Sangre") {
+
+                                    $('#examenes-realizar').empty();
+                                    for (i = 0; i < item.descripcion.Sangre.length; i++) {
+                                        var text = item.descripcion.Sangre[i];
+                                        $('#examenes-realizar').append('<input name="examenesrealizar" type="checkbox" value="'+text+'"/>'+text+'<br />');
+                                    }
+
+                                } else if ($("#inputmuestra").val() == "Orina") {
+
+                                    $('#examenes-realizar').empty();
+                                    for (i = 0; i < item.descripcion.Orina.length; i++) {
+                                        var text = item.descripcion.Orina[i];
+                                        $('#examenes-realizar').append('<input name="examenesrealizar" type="checkbox" value="'+text+'"/>'+text+'<br />');
+                                    }
+
+                                } else if ($("#inputmuestra").val() == "Heces") {
+
+                                    $('#examenes-realizar').empty();
+                                    for (i = 0; i < item.descripcion.Heces.length; i++) {
+                                        var text = item.descripcion.Heces[i];
+                                        $('#examenes-realizar').append('<input name="examenesrealizar" type="checkbox" value="'+text+'"/>'+text+'<br />');
+                                    }
+                                }
+                            }
+                        })
+                    })
+                }
+            });
+
+            //Cargar los Laboratorios
+            var url = "/Laboratorios";
+            var data = $("#inpuLaboratorio").serialize();
+            $.ajax({
+                type: 'GET',
+                url: url,
+                data: data,
+
+                success: function(respuesta) {
+                    respuesta.forEach(function(item) {
+                        var $option = $("<option></option>");
+                        $option.text(item.nombre);
+                        $("#inpuLaboratorio").append($option);
+                    })
+                }
+            });
+        });
+
+        //Generar Codigo de Barras para la Muestra.
+        $("#btn-generar-codigo-barras").click(function() {
+            var codigo_barras = generatePassword();
+            $("#codigo_barras").val(codigo_barras);
+            document.getElementById("imagen-codigo-barras").src = "http://barcode.tec-it.com/barcode.ashx?data=" + codigo_barras + "&code=Code128&dpi=96";
+            $('#contenedor-codigo-barras').show();
+        });
+
+        //Guardar la Muestra en la base de Datos.
+        $("#muestraCreateForm").submit(function(e) {
+            if ($("#inputcedula").val() == null || $("#inputCentroMedico").val() == null || $("#inpuLaboratorio").val() == null || $("#codigo_barras").val() == "") {
+                alert("Por Favor llene todos los campos!!");
+            } else {
+                e.preventDefault();
+                var url = "/muestras";
+                var data = $("#muestraCreateForm").serialize()+'&'+$.param({numExams:$('input:checkbox:checked').size()});
+
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: data,
+
+                    success: function(respuesta) {
+
+                        window.location = "/operario/muestras";
+                    }
+                });
+                window.location = "/operario/muestras";
+            }
+        });
+    </script>
+{{/extend}}

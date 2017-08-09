@@ -1,0 +1,94 @@
+{{#extend "stylesheets"}}
+    <link href="/stylesheets/sucursal.css" rel="stylesheet">
+    <link href="/stylesheets/listaDeResultados.css" rel="stylesheet">
+    <style>
+    body{
+      background-color:#F3F6E9 ;
+    }
+  </style>
+{{/extend}}
+
+<header>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.ejs">
+                    {{!-- S<span class="fa fa-flask fa-lg" aria-hidden="true"></span>P --}}
+                    Salud<span class="fa fa-flask fa-lg" aria-hidden="true"></span>Primero
+                </a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="action"><a href="#">Lista de resultados</a></li>
+                    <li class=""><a href="/logout">Cerrar sesión</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+<div class="container" id="tabla1">
+    <section align="center">
+        <h3>Lista de Muestras</h3><br>
+    </section>
+    <div class="table-responsive">
+        <table class="table table-striped" id="table">
+            <thead>
+                <tr id="listaEncabezado">
+                    <td>Código de Barras </td>
+                    <td>Estado</td>
+                    <td>Paciente C.I.</td>
+                    <td>Tipo</td>
+                    <td>Laboratorio</td>
+                    <td>Acción</td>
+                </tr>
+            </thead>
+            <tbody id="tabla">
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{{#extend "scripts"}}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $.getJSON("/muestras", function(data) {
+                // console.log(data);
+                $(data).each(function(key, muestra) {
+                    var $btn = $('<a class="btn btn-primary btn-sm">Ver Examenes</a>');
+                    $btn.attr('href', '/laboratorista/muestras/' + muestra._id);
+                    $btn.css('background-color', '#89bf00');
+                    var $tr = $("<tr>");
+                    $tr.append($('<td>').text(muestra.cod_barras).attr('id', 'cod_barras'))
+                        .append($('<td>').text(muestra.estado).attr('id', 'estado'))
+                        .append($('<td>').text(muestra.cedula).attr('id', 'cedula'))
+                        .append($('<td>').text(muestra.tipo).attr('id', 'tipo'))
+                        .append($('<td>').text(muestra.lab_asignado).attr('id', 'lab_asignado'))
+                        .append($('<td>').html($btn));
+
+                    $("#tabla").append($tr);
+                });
+                $("#table").DataTable({
+                    aoColumnDefs: [{
+                        "aTargets": [0],
+                        "bSortable": true
+                    }, {
+                        "aTargets": [2],
+                        "asSorting": ["asc"],
+                        "bSortable": true
+                    }, ],
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                    }
+                });
+
+            });
+        });
+    </script>
+{{/extend}}

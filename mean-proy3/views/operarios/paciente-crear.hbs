@@ -1,0 +1,97 @@
+{{#extend "stylesheets"}}
+  <style>
+    #content{
+      padding-top: 0%;
+    }
+    body{
+      background-color:#F3F6E9 ;
+    }
+    section.container.containerMin{
+      padding-top: 1%;
+
+    }
+  </style>
+{{/extend}}
+<header>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/operario/pacientes">
+                    S<span class="fa fa-flask fa-lg" aria-hidden="true"></span>P
+                </a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="action"><a href="/operario/pacientes">Pacientes</a></li>
+                    <li class=""><a href="/operario/muestras">Muestras</a></li>
+                    <li class=""><a href="/operario/estadisticas">Estadísticas</a></li>
+                    <li class=""><a href="/logout">Cerrar sesión</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<section class="container containerMin">
+    <h2>Registro de Paciente</h2>
+</section>
+<section class="container containerMin" id="content">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <form id="pacienteCreateForm">
+            <div class="form-group">
+                <label for="inputcedula">Cédula</label>
+                <input name="cedula" type="text" onkeypress="return valida(event)" maxlength="10" class="form-control" id="inputcedula" required="">
+            </div>
+            <div class="form-group">
+                <label for="inputNombres">Nombres</label>
+                <input name="nombres" type="text" class="form-control" id="inputNombres" required="">
+            </div>
+            <div class="form-group">
+                <label for="inputApellidos">Apellidos</label>
+                <input name="apellidos" type="text" class="form-control" id="inputApellidos" required="">
+            </div>
+            <div class="form-group">
+                <label for="inputDireccion">Dirección</label>
+                <input name="direccion" type="text" class="form-control" id="inputDireccion" required="">
+            </div>
+            <div class="form-group">
+                <label for="inputEmail">E-mail</label>
+                <input name="correo" type="email" class="form-control" id="inputEmail" required="">
+            </div>
+            <div class="form-group">
+                <label for="telefono">Telefono</label>
+                <input name="telefono" onkeypress="return valida(event)" maxlength="10"  minlength="7"  type="text" class="form-control" id="telefono" required="">
+            </div>
+            <button type="submit" class="btn btn-default">Guardar</button>
+        </form>
+    </div>
+    <div class="col-md-2"> </div>
+</section>
+
+{{#extend "scripts"}}
+    <script>
+        $("#pacienteCreateForm").submit(function(e) {
+            e.preventDefault();
+            var url = "/pacientes";
+            var data = $("#pacienteCreateForm").serialize();
+
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: data,
+
+                success: function(respuesta) {
+                    window.location = "/operario/pacientes";
+                }
+            });
+        });
+    </script>
+{{/extend}}

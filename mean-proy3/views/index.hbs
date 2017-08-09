@@ -1,0 +1,210 @@
+
+<header id="banner">
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.ejs">
+                    S<span class="fa fa-flask fa-lg" aria-hidden="true"></span>P
+                </a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="action" id="inicio"><a id="clickinicio" href="#ini">Inicio</a></li>
+                    <li class="" id="paci"><a id="clickpacientes" href="#pacientes">Pacientes</a></li>
+                    <li class="" id="ope"><a id="clickoperarios" href="#operarios">Operarios</a></li>
+                    <li class="" id="lab"><a href="#laboratoristas" id="clicklabo">Laboratoristas</a></li>
+                    <li class="" id="contac"><a id="clickcontact" href="#contactenos">Cont&aacute;ctenos</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ************** banner************* -->
+    <div class="container">
+        <section class="jumbotron" id="ini">
+            <h2>Bienvenido a</h2>
+            <h1>Salud Primero S.A.</h1>
+            <p>Gestión de Resultados de Exámenes Médicos.</p>
+            <a class="btn btn-big btn-left" href="#pacientes" role="button">Conocer m&aacute;s</a>
+            <a class="btn btn-big btn-right" data-toggle="modal" data-target="#myModalLogin" href="#" role="button">Ingresar</a>
+        </section>
+        <!-- Modal Login -->
+        <div class="modal fade" id="myModalLogin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div id="errorLogin" class="alert alert-danger collapse" role="alert"></div>
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <form id="login">
+                        <div class="form-group form-modal">
+                            <label for="exampleInputEmail1">Usuario</label>
+                            <input type="text" name="user" class="form-control" id="user" placeholder="User" required="">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Contraseña</label>
+                            <input type="password" name="pass" class="form-control" id="pass" placeholder="clave" required="">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Elegir Rol</label>
+                            <select class="form-control" name="rol">
+                                <option>Paciente</option>
+                                <option>Operario</option>
+                                <option>Laboratorista</option>
+                            </select>
+                        </div>
+                        <div class="form-footer">
+                            <button type="submit" class="btn btn-big btn-left btn-small entrar">Ingresar</button>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Modal Register -->
+
+    </div>
+    <!-- **** banner************* -->
+</header>
+
+
+<section id="pacientes" class="container" id="color1">
+    <div class="col-sm-2"></div>
+    <header class="col-sm-8">
+        <h1>Usuario como Paciente</h1>
+        <h3>
+            Un paciente se acerca a un Centro Médico, donde una enfermera
+            tomará una o varias muestras médicas del paciente.
+        </h3>
+    </header>
+    <div class="row">
+        <article class="col-sm-4">
+            <h1><i class="fa fa-user-md fa-2x" aria-hidden="true"></i></h1>
+            <h3>Centros Medicos</h3>
+            <p>
+                Aquí usted podrá consultar que exámenes puede realizar en el centro médico con sus respectivos horarios.
+            </p>
+            <button data-toggle="modal" data-target="#myModalLogin" href="#" class="btn btn-big btn-left btn-small" type="button" name="button" id="ingresar">Ingresar</button>
+        </article>
+        <article class="col-sm-4">
+            <h1><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></h1>
+            <h3>Mis Examenes</h3>
+            <p>
+                Aquí usted podrá ver los detalles de sus exámenes y los puede descargar.
+            </p>
+            <button data-toggle="modal" data-target="#myModalLogin" href="#" class="btn btn-big btn-left btn-small" type="button" name="button" id="misexamenes">Ingresar</button>
+        </article>
+        <article class="col-sm-4">
+            <h1><i class="fa fa-user fa-2x" aria-hidden="true"></i></h1>
+            <h3>Mis Datos</h3>
+            <p>
+                Aquí usted podrá ver su perfil.
+            </p>
+            <button data-toggle="modal" data-target="#myModalLogin" href="#" class="btn btn-big btn-left btn-small" type="button" name="button" id="misdatos">Ingresar</button>
+        </article>
+    </div>
+</section>
+
+<section id="operarios" class="container">
+    <div class="col-sm-2"></div>
+    <header class="col-sm-8">
+        <h1>Usuario como Operario</h1>
+        <h3>
+            Un operario ingresa la información descrita en la ficha del
+            paciente.
+        </h3>
+    </header>
+    <div class="row">
+        <article class="col-sm-4">
+            <h1><i class="fa fa-file-text-o fa-2x" aria-hidden="true"></i></h1>
+            <h3>Registrar un paciente</h3>
+            <p>
+                Aquí usted podrá registrar un paciente donde ingresará su información básica.
+            </p>
+            <a data-toggle="modal" data-target="#myModalLogin" href="#" class="btn btn-big btn-left btn-small">Ingresar</a>
+        </article>
+        <article class="col-sm-4">
+            <h1><i class="fa fa-file-text-o fa-2x" aria-hidden="true"></i></h1>
+            <h3>Ver muestras</h3>
+            <p>
+                Aquí usted podrá registrar la muestra y asignar el laboratorio que la analizará,obtención del codigo de barras para identifcar las muestras.
+            </p>
+            <a data-toggle="modal" data-target="#myModalLogin" href="#" class="btn btn-big btn-left btn-small">Ingresar</a>
+        </article>
+        <article class="col-sm-4">
+            <h1><i class="fa fa-bar-chart fa-2x" aria-hidden="true"></i></h1>
+            <h3>Estadisticas</h3>
+            <p>
+                Aquí podrá generar reportes y gráficos estadísticos de las muestras médicas de la sucursal.
+            </p>
+            <a data-toggle="modal" data-target="#myModalLogin" href="#" class="btn btn-big btn-left btn-small">Ingresar</a>
+        </article>
+    </div>
+</section>
+
+<section id="laboratoristas" class="container">
+    <div class="col-sm-2"></div>
+    <header class="col-sm-8">
+        <h1>Usuario como Laboratorista</h1>
+        <h3>
+            Un laboratorista ingresa los resultados del análisis de una muestra
+        </h3>
+    </header>
+    <div class="row">
+        <article class="col-sm-6">
+            <h1><i class="fa fa-file-text-o fa-2x" aria-hidden="true"></i></h1>
+            <h3>Ingresar resultados de muestra</h3>
+            <p>
+                Aquí usted podrá ingresar los resultados del análisis de una muestra y marcar si está llegó con éxito.
+            </p>
+            <button data-toggle="modal" data-target="#myModalLogin" href="#" class="btn btn-big btn-left btn-small" type="button" name="button" id="ingresarMuestra">Ingresar</button>
+        </article>
+        <article class="col-sm-6">
+            <h1><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></h1>
+            <h3>Lista de muestras</h3>
+            <p>
+                Aquí usted podrá visualizar la lista de los resultados de los análisis de las muestras recibidas.
+            </p>
+            <button data-toggle="modal" data-target="#myModalLogin" href="#" class="btn btn-big btn-left btn-small" type="button" name="button" id="listaDeMuestras">Ingresar</button>
+        </article>
+
+    </div>
+</section>
+
+{{#extend "scripts"}}
+    <script>
+        $("#login").submit(function(e) {
+
+            e.preventDefault();
+            var url = "/login";
+            var data = $("#login").serialize();
+
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: data,
+                success: function(respuesta) {
+                    if (respuesta.error) {
+                        $("#errorLogin").show();
+                        $("#errorLogin").text(respuesta.mensaje);
+                    } else {
+                        if (respuesta.usuario.rol == "paciente") {
+                            window.location = "/paciente";
+                        }
+                        if (respuesta.usuario.rol == "operario") {
+                            window.location = "/operario/pacientes";
+                        }
+                        if (respuesta.usuario.rol == "laboratorista") {
+                            window.location = "/laboratorista";
+                        }
+                    }
+                    //  window.location = "sucursales.ejs";
+                }
+            });
+        });
+    </script>
+{{/extend}}

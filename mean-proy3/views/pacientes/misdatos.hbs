@@ -1,0 +1,150 @@
+{{#extend "stylesheets"}}
+    <link rel="stylesheet" href="/stylesheets/misdatos.css" media="screen" title="no title" charset="utf-8">
+{{/extend}}
+  <header>
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="index.ejs">
+                        S<span class="fa fa-flask fa-lg" aria-hidden="true"></span>P
+                    </a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class=""><a href="/paciente">Cambiar de centro</a></li>
+                        <li class=""><a href="/paciente/misexamenes.ejs">Mis exámenes</a></li>
+                        <li class="action"><a href="#">Mis datos</a></li>
+                        <li class=""><a href="/logout">Cerrar sesión</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- ************** cabecera************* -->
+        <section id="cabecera" align="center">
+
+            <h2>Mis datos</h2>
+        </section>
+
+    </header>
+    <section class="container" id="formulario">
+        <form id="formPaciente">
+            <div class="row">
+                <fieldset>
+                    <div align="center" class="col-sm-6" align="left">
+                        <img align="center"  id="preview" align="left"> </img>
+                        <div>
+                            <input type="file" name="fotoDePerfil" id="image_file" onchange="fileSelected();" value="" />
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group row">
+                            <label for="nombre" class="col-sm-2 form-control-label">Nombres</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="nombres" class="form-control letras" id="nombre" placeholder="Nombre" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="apellido" class="col-sm-2 form-control-label ">Apellidos</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="apellidos" class="form-control letras" id="apellido" placeholder="Apellidos" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="ced" class="col-sm-2 form-control-label">Cédula</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="cedula" class="form-control" id="ced" placeholder="Cédula" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="dir" class="col-sm-2 form-control-label">Dirección</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="direccion1" class="form-control" id="dir" placeholder="Dirección">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="telf" class="col-sm-2 form-control-label">Teléfonos</label>
+                            <div class="col-sm-10" id="telefonos"> </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputEmail3" class="col-sm-2 form-control-label">Email</label>
+                            <div class="col-sm-10">
+                                <input type="email" name="correo" class="form-control" id="inputEmail3" placeholder="Email">
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <button class="btn btn-default" type="submit">Guardar</button>
+        </form>
+
+    </section>
+
+{{#extend "scripts"}}
+    <script src="/javascripts/misdatos.js"></script>
+    <script>
+        $(".letras").keypress(function(key) {
+            window.console.log(key.charCode)
+            if ((key.charCode < 97 || key.charCode > 122) //letras mayusculas
+                &&
+                (key.charCode < 65 || key.charCode > 90) //letras minusculas
+                &&
+                (key.charCode != 45) //retroceso
+                &&
+                (key.charCode != 241) //ñ
+                &&
+                (key.charCode != 209) //Ñ
+                &&
+                (key.charCode != 32) //espacio
+                &&
+                (key.charCode != 225) //á
+                &&
+                (key.charCode != 233) //é
+                &&
+                (key.charCode != 237) //í
+                &&
+                (key.charCode != 243) //ó
+                &&
+                (key.charCode != 250) //ú
+                &&
+                (key.charCode != 193) //Á
+                &&
+                (key.charCode != 201) //É
+                &&
+                (key.charCode != 205) //Í
+                &&
+                (key.charCode != 211) //Ó
+                &&
+                (key.charCode != 218) //Ú
+            )
+                return false;
+        });
+        $(document).ready(function() {
+            $("#formPaciente").submit(function(e) {
+                e.preventDefault();
+                var path = $(this).find('img#preview').attr('src');;
+                var url = "/pacientes";
+                // var data = $("#formPaciente").serialize();
+                // FormData en vez de serialize cuando hay archivos
+                var formData = new FormData($(this)[0]);
+                formData.append('foto', ''+path)
+                $.ajax({
+                    type: 'PUT',
+                    url: url,
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(respuesta) {
+                        window.location = "misdatos.ejs";
+                    }
+                });
+            });
+        });
+    </script>
+  {{/extend}}

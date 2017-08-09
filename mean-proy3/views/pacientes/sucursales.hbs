@@ -1,0 +1,247 @@
+{{#extend "stylesheets"}}
+    <link href='/stylesheets/rotating-card.css' rel='stylesheet' />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/flexslider/2.6.1/flexslider.css">
+    <style>
+        .modal-dialog {
+            width: auto;
+            margin: 3% auto;
+        }
+
+    </style>
+{{/extend}}
+
+<header>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">
+                    S<span class="fa fa-flask fa-lg" aria-hidden="true"></span>P
+                </a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="action"><a href="#">Sucursales</a></li>
+                    <li class=""><a href="paciente/misexamenes.ejs">Mis exámenes</a></li>
+                    <li class=""><a href="paciente/misdatos.ejs">Mis datos</a></li>
+                    <li class=""><a href="/logout">Cerrar sesión</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- ************** cabecera************* -->
+    <div>
+        <section align="center">
+
+            <h3>Sucursales a Nivel Nacional</h3>
+        </section>
+    </div>
+</header>
+<!-- **** cabecera************* -->
+
+<div ng-app="myApp" class="container" ng-controller="AppCtrl">
+    <div class="row">
+        <div class="col-sm-10 col-sm-offset-1">
+            <div class="col-md-4 col-sm-6" ng-repeat="sucursal in sucursales">
+                <div class="card-container">
+                    <div class="card">
+                        <div class="front">
+                            <div class="cover">
+
+                            </div>
+                            <div class="user">
+                                <img  style="width:100px;height:100px" class="img-circle" src={[{sucursal.foto}]} />
+                            </div>
+                            <div class="content">
+                                <div class="main">
+                                    <h3 class="name">{[{ sucursal.nombre }]}</h3>
+                                    <p class="profession">{[{ sucursal.direccion }]}</p>
+                                </div>
+                                <div class="footer">
+                                    <i class="fa fa-mail-forward"></i>Más Información
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end front panel -->
+                        <div class="back">
+                            <div class="content">
+                                <div class="main">
+                                    <div class=" text-center">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h3 class="panel-title">Horarios </h3>
+                                            </div>
+                                            <div class="panel-body">
+                                                <table class="table table-condensed">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Lunes</td>
+                                                            <td>{[{ sucursal.horarios.Lunes }]}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Martes</td>
+                                                            <td>{[{ sucursal.horarios.Martes }]}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Miercoles</td>
+                                                            <td>{[{ sucursal.horarios.Miercoles }]}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Jueves</td>
+                                                            <td>{[{ sucursal.horarios.Jueves }]}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Viernes</td>
+                                                            <td>{[{ sucursal.horarios.Viernes }]}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                        <button type="button" class="btn btn-success" data-toggle="modal" ng-click="mapa(sucursal.direccionMapa,sucursal._id)" data-target=#{[{sucursal._id}]} href="#">Detalles</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end back panel -->
+                </div>
+                <!-- end card -->
+            </div>
+            <!-- end card-container -->
+        </div>
+        <!-- end col sm 3 -->
+    </div>
+    <!-- end col-sm-10 -->
+
+    <h2 align="center">Galería<h2>
+    <div class="content-slide" >
+        <div style="width:20em;height:15em" id="slider" class="flexslider">
+
+            <ul class="slides" >
+                <li ><img style="width:20em;height:15em" id="pic" src="./images/galeria1.jpg" /></li>
+                <li ><img style="width:20em;height:15em" id="pic" src="./images/1.jpg" /></li>
+                <li ><img style="width:20em;height:15em" id="pic" src="./images/3.jpg" /></li>
+                <li ><img style="width:20em;height:15em" id="pic" src="./images/quito.jpg" /></li>
+                <li ><img style="width:20em;height:15em" id="pic" src="./images/lab-tube.jpg" /></li>
+
+            </ul>
+        </div>
+
+        <div id="carousel" class="flexslider">
+
+            <ul class="slides">
+                <li><img style="width:4em;height:3em" id="pic" src="/images/galeria1.jpg" /></li>
+                <li><img style="width:4em;height:3em" id="pic" src="/images/1.jpg" /></li>
+                <li><img style="width:4em;height:3em" id="pic" src="/images/3.jpg" /></li>
+                <li><img style="width:4em;height:3em" id="pic" src="/images/quito.jpg" /></li>
+                <li><img style="width:4em;height:3em" id="pic" src="/images/lab-tube.jpg" /></li>
+            </ul>
+        </div>
+    </div>
+    <div class="modal fade" ng-repeat="sucursal in sucursales " id={[{sucursal._id}]} tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" id="ModalSucursal">
+            <div class="modal-content">
+              <div class="container">
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <div class="panel panel-default">
+                            <div class="panel-heading">
+                              <h3 class="panel-title">Examenes </h3>
+                            </div>
+                            <div class="panel-body">
+                                <h4>Sangre:</h4>
+                                <h5 ng-repeat="sangre in sucursal.descripcion.Sangre"><li>{[{ sangre }]}</li></h5>
+                                <h4>Heces:</h4>
+                                <h5 ng-repeat="heces in sucursal.descripcion.Heces"><li>{[{ heces }]}</li></h5>
+                                <h4>Orina:</h4>
+                                <h5 ng-repeat="orina in sucursal.descripcion.Orina"><li>{[{ orina }]}</li></h5>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="panel panel-default">
+                            <div class="panel-heading">
+                              <h3 class="panel-title">Mapa </h3>
+                            </div>
+                            <div class="panel-body"align="center" >
+                                <div id="map{[{ sucursal._id }]}" style="width:15em;height:10em" ></div>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+              </div>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+
+                </div >
+            </div>
+        </div>
+    </div>
+</div>
+
+{{#extend "scripts"}}
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBcoBX8FRfrJVOw-nk7KjU3MC7maC3AJYE&signed_in=true" async defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flexslider/2.6.1/jquery.flexslider.js"></script>
+    <!-- Scripts -->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="/javascripts/controllerCentroMed.js"></script>
+    <script type="text/javascript">
+        $().ready(function(){
+            $('[rel="tooltip"]').tooltip();
+        });
+        $('#carousel').flexslider({
+            animation: "slide",
+            controlNav: false,
+            animationLoop: false,
+            slideshow: false,
+            itemWidth: 120,
+            itemMargin: 30,
+            asNavFor: '#slider'
+        });
+        $('#slider').flexslider({
+            animation: "slide",
+            controlNav: false,
+            animationLoop: false,
+            slideshow: false,
+            sync: "#carousel"
+        });
+        // ANIMACION PARA TABS
+        var hashTagActive = "";
+        $(".scroll").click(function (event) {
+            if(hashTagActive != this.hash) {
+                event.preventDefault();
+                // calcular lugar destino
+                var dest = 0;
+                if ($(this.hash).offset().top > $(document).height() - $(window).height()) {
+                    dest = $(document).height() - $(window).height();
+                } else {
+                    dest = $(this.hash).offset().top;
+                }
+                // ir al destino
+                $('html,body').animate({
+                    scrollTop: dest
+                }, 750, 'swing');
+                hashTagActive = this.hash;
+            }
+        });
+        function rotateCard(btn){
+            var $card = $(btn).closest('.card-container');
+            console.log($card);
+            if($card.hasClass('hover')){
+                $card.removeClass('hover');
+            } else {
+                $card.addClass('hover');
+            }
+        }
+    </script>
+
+{{/extend}}

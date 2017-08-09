@@ -1,0 +1,74 @@
+[
+    {
+        "fechaIngreso": "2016-04-10",
+        "estado": "enviado",
+        "tipo": "sangre",
+        "lab_asignado": "BernaLab",
+        "cod_barras": "abc007",
+        "cedula": "1234500006",
+        "centro_medico": "Centro Sotomayor",
+        "examenes":[
+            {
+                "nombre": "hemerograma",
+                "resultados": []
+            },
+            {
+                "nombre": "Bioquimica",
+                "resultados": []
+            },
+            {
+                "nombre": "Serologia",
+                "resultados": []
+            }
+        ]
+    },
+    {
+        "fechaIngreso": "2016-02-21",
+        "estado": "enviado",
+        "tipo": "sangre",
+        "lab_asignado": "BernaLab",
+        "cod_barras": "abc008",
+        "cedula": "1234500007",
+        "centro_medico": "Centro Salud Gratis",
+        "examenes":[
+            {
+                "nombre": "hemerograma",
+                "resultados": []
+            },
+            {
+                "nombre": "Serologia",
+                "resultados": []
+            }
+        ]
+    },
+    {
+        "fechaIngreso": "2016-05-05",
+        "estado": "enviado",
+        "tipo": "heces",
+        "lab_asignado": "BernaLab",
+        "cod_barras": "abc011",
+        "cedula": "1234500004",
+        "centro_medico": "Centro Sotomayor",
+        "examenes":[
+            {
+                "nombre": "Coprocultivo",
+                "resultados": []
+            }
+        ]
+    },
+    {
+        "fechaIngreso": "2016-03-01",
+        "estado": "enviado",
+        "tipo": "orina",
+        "lab_asignado": "BernaLab",
+        "cod_barras": "abc015",
+        "cedula": "1234500006",
+        "centro_medico": "Centro Sotomayor",
+        "examenes":[
+            {
+                "nombre": "Uroanalisis",
+                "resultados": []
+            }
+        ]
+    }
+]

@@ -1,0 +1,155 @@
+{{#extend "stylesheets"}}
+    <link href="/stylesheets/sucursal.css" rel="stylesheet">
+    <link href="/stylesheets/listaDeResultados.css" rel="stylesheet">
+    <style media="screen">
+        .inputResutlts {
+            width: 80%;
+        }
+        .form-group.ingresarResults button{
+            display: inline-block;
+            width: 25%;
+        }
+        @media screen and (max-width: 600px) {
+            .form-group.ingresarResults button{
+                display: block;
+                width: 50%;
+            }
+        }
+    </style>
+{{/extend}}
+
+<header>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/operario/pacientes">
+                    S<span class="fa fa-flask fa-lg" aria-hidden="true"></span>P
+                </a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class=""><a href="/operario/pacientes">Pacientes</a></li>
+                    <li class="action"><a href="/operario/muestras">Muestras</a></li>
+                    <li class=""><a href="/operario/estadisticas">Estadísticas</a></li>
+                    <li class=""><a href="/logout">Cerrar sesión</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+{{!-- <section align="center">
+    <h1>Salud Primero S.A.</h1>
+    <p>Gestión de Resultados de Exámenes Médicos.</p>
+</section> --}}
+<div class="container" id="muestra">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <section align="center">
+                <h3>Muestra</h3>
+            </section>
+            <br>
+            <div class="form-group">
+                <label for="codBarras">Codigo</label>
+                <input type="text" class="form-control" id="codBarras" style="text-align: center" disabled>
+                <input name="_method" type="hidden" value="{{muestra_id}}" id="muestra_id">
+            </div>
+            <div id="estado-group" class="form-group">
+                <label for="codBarras">Estado</label>
+                <input type="text" class="form-control" id="estado" disabled>
+            </div>
+            <div class="form-group">
+                <label for="codBarras">Tipo De Muestra</label>
+                <input type="text" class="form-control" id="tipo" disabled>
+            </div>
+            <div class="form-group">
+                <label for="codBarras">Laboratorio Destino</label>
+                <input type="text" class="form-control" id="lab" disabled>
+            </div>
+            <h2>Examenes a Realizar</h2>
+            {{#each examenes}}
+                <div class="examenes panel panel-success">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading" style="position: relative">
+                        {{this.nombre}}
+                    </div>
+                    <!-- List group -->
+                    <ul class="list-group">
+                        <li class="list-group-item" >
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <strong>Parametro</strong>
+                                </div>
+                                <div class="col-xs-3">
+                                    <strong>Unidad</strong>
+                                </div>
+                                <div class="col-xs-3">
+                                    <strong>Resultado</strong>
+                                </div>
+                                <div class="col-xs-3">
+                                    <strong>Val_ref</strong>
+                                </div>
+                            </div>
+                        </li>
+                        {{#each this.resultados}}
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        {{this.parametro}}
+                                    </div>
+                                    <div class="col-xs-3">
+                                        {{this.unidad}}
+                                    </div>
+                                    <div class="col-xs-3">
+                                        {{this.resultado}}
+                                    </div>
+                                    <div class="col-xs-3">
+                                        {{this.val_ref}}
+                                    </div>
+                                </div>
+                            </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            {{/each}}
+
+            <div id="ingResults-group1" class="form-group ingresarResults" >
+                {{!-- este boton es opcional, si desde qui se quiere editar esta muestra
+                      en ese caso deberia estar aqui el evento de dar clic para editar
+                      que esta en muestras-index, se separas el js de muestras-index
+                      en un archivo se podria llamar desde esta vista y tb funcionaria aqui --}}
+                <button type="button" class="btn btn-default btn-md" title="Atrás" onclick="location='/operario/muestras'">
+                    Atrás <span class="glyphicon glyphicon-arrow-left"></span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+{{#extend "scripts"}}
+    {{!-- <script src="/javascripts/laboratoristaScript.js" charset="utf-8"></script> --}}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var muestra_id = $("#muestra_id").val();
+            var path = '/muestras/' + muestra_id;
+            $.getJSON(path, function(muestra) {
+                console.log(muestra);
+                $("#codBarras").val(muestra.cod_barras);
+                $("#estado").val(muestra.estado);
+                $("#tipo").val(muestra.tipo);
+                $("#lab").val(muestra.lab_asignado);
+
+                console.log("cant extamenes: " + muestra.examenes.length);
+            })
+        });
+    </script>
+{{/extend}}

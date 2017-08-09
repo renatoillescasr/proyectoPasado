@@ -1,0 +1,242 @@
+{{#extend "stylesheets"}}
+  <style>
+      #lista {
+          padding-left: 0;
+      }
+      body{
+        background-color:#F3F6E9 ;
+      }
+      #botonDescarga{
+        background-color: yellowgreen;
+      }
+  </style>
+  <link href="/stylesheets/barraDeEstado.css" rel="stylesheet">
+{{/extend}}
+
+      <header>
+          <nav class="navbar navbar-default navbar-fixed-top">
+              <div class="container">
+                  <div class="navbar-header">
+                      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                          <span class="sr-only">Toggle navigation</span>
+                          <span class="icon-bar"></span>
+                          <span class="icon-bar"></span>
+                          <span class="icon-bar"></span>
+                      </button>
+                      <a class="navbar-brand" href="index.ejs">
+                          S<span class="fa fa-flask fa-lg" aria-hidden="true"></span>P
+                      </a>
+                  </div>
+
+                  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                      <ul class="nav navbar-nav navbar-right">
+                          <li class=""><a href="/paciente">Cambiar de centro</a></li>
+                          <li class="action"><a href="#">Mis exámenes</a></li>
+                          <li class=""><a href="/paciente/misdatos.ejs">Mis datos</a></li>
+                          <li class=""><a href="/logout">Cerrar sesión</a></li>
+                      </ul>
+                  </div>
+              </div>
+          </nav>
+          <!-- ************** cabecera************* -->
+          <div class="container">
+              <section id="cabecera" align="center">
+
+                  <h2>Mis exámenes</h2>
+              </section>
+          </div>
+      </header>
+      <section class="container table-responsive">
+        <div ng-app="misExamenes" ng-controller="misExamenesCtrl" >
+            <table  dt-column-defs="dtColumnDefs" datatable="ng" dt-options="dtOptions" class="row-border hover" >
+                <thead>
+                  <tr>
+                      <td>Muestra</td>
+                      <td>Examenes </td>
+                      <td>Fecha </td>
+                      <td>Estado</td>
+                      <td>Descarga</td>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="examen in examenes">
+                        <td>{[{examen.tipo}]}</td>
+                        <td>
+                            <ul id="lista">
+                                <li style="list-style:none" ng-repeat="examenNombre in examen.examenes">{[{examenNombre.nombre}]}</li>
+                            </ul>
+                        </td>
+                        <td>{[{examen.fechaIngreso| date:"MM/dd/yyyy"}]}</td>
+                        <td ng-if="examen.estado == 'enviado'">
+                            <ol class="progtrckr" data-progtrckr-steps="2">
+                                <li class="progtrckr-done">Inicial</li>
+                                <li class="progtrckr-todo">Proceso</li>
+                                <li class="progtrckr-todo">Final</li>
+                            </ol>
+                        </td>
+                        <td ng-if="examen.estado == 'recibido'">
+                            <ol class="progtrckr" data-progtrckr-steps="2">
+                                <li class="progtrckr-done">Inicial</li>
+                                <li class="progtrckr-done">Proceso</li>
+                                <li class="progtrckr-todo">Final</li>
+                            </ol>
+                        </td>
+                        <td ng-if="examen.estado == 'terminado'">
+                            <ol class="progtrckr" data-progtrckr-steps="2">
+                                <li class="progtrckr-done">Inicial</li>
+                                <li class="progtrckr-done">Proceso</li>
+                                <li class="progtrckr-done">Final</li>
+                            </ol>
+                        </td>
+                        <td ng-if="examen.estado == 'terminado'">
+                            <button class="btn btn-default" id="botonDescarga" ng-click="PdfExam(examen._id)">Descargar</button>
+                        </td>
+                        <td ng-if="examen.estado == 'enviado'">
+                            <p>Ingresado</p>
+                        </td>
+                        <td ng-if="examen.estado == 'recibido'">
+                            <p>En Proceso</p>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+            </div>
+          </section>
+
+    {{#extend "scripts"}}
+          <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+          <script src="/javascripts/angular-datatables.min.js"></script>
+          <script type="text/javascript" src="/javascripts/pdfmake.js"></script>
+          <script type="text/javascript" src="/javascripts/vfs_fonts.js"></script>
+            <script>
+
+                var app = angular.module('misExamenes', ['datatables']);
+                app.config(function($interpolateProvider) {
+                    $interpolateProvider.startSymbol('{[{');
+                    $interpolateProvider.endSymbol('}]}');
+                });
+                app.controller('misExamenesCtrl',function($scope, $http, DTColumnDefBuilder,DTOptionsBuilder)
+                {
+                    $http.get("/pacientes/muestrasPorPaciente").success(function (response)
+                    {
+                        $scope.examenes = response;
+                    });
+                     $scope.dtOptions = DTOptionsBuilder.newOptions().withDOM('C<"clear">lfrtip').withOption('lengthMenu', [[5, 10, 15, 20, -1],[5, 10, 15, 20, "Todo"]])
+                     .withPaginationType('full_numbers').withDisplayLength(5).withLanguageSource('//cdn.datatables.net/plug-ins/1.10.9/i18n/Spanish.json');
+                    $scope.dtColumnDefs = [
+
+                      DTColumnDefBuilder.newColumnDef(1).notSortable(),
+                      DTColumnDefBuilder.newColumnDef(3).notSortable()
+
+                  ];
+
+
+                  function generando(item){
+                      var PDF=[];
+                      var tabla = [];
+                      tabla.push({
+                          image: 'data:image/png;base64,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',
+                                              width: 80,
+                                              // height: 35,
+                                              absolutePosition: {
+                                                  x: 20,
+                                                  y: 20
+                                              }
+                                          }, {
+                                              text: 'SALUD PRIMERO S.A.',
+                                              fontSize: 15,
+                                              bold: true,
+                                              alignment: 'center',
+                                              margin: [0, 13, 0, 10]
+                                          }, {
+                                              text: 'RESULTADOS DE EXAMENES',
+                                              fontSize: 10,
+                                              bold: true,
+                                              alignment: 'center',
+                                              margin: [0, 0, 0, 10]
+                                          },
+
+                        {
+                        style: 'tableExample',
+                        table: {
+
+                          headerRows: 1,
+                          widths: [120,120, 120,120],
+                          body:cuerpoTabla(item),
+                      }
+
+                        });
+                        PDF.push(tabla);
+                        return  PDF;
+                  }
+
+                  function cuerpoTabla(item){
+                    var arrayPDF=[];
+                    var cedula=[];
+                    var fecha=[];var tipo=[];
+                    cedula.push({
+                            colSpan: 2,
+                            text: 'Cédula del Paciente:'
+                        },
+                        '', {
+                            colSpan: 2,
+                            text: item.cedula
+                        },
+                        '');
+                    fecha.push({
+                            colSpan: 2,
+                            text: 'Fecha:'
+                        },
+                        '', {
+                            colSpan: 2,
+                            text: item.fechaIngreso
+                        },
+                        '');
+                        tipo.push({
+                                colSpan: 2,
+                                text: 'Tipo de Muestra:'
+                            },
+                            '', {
+                                colSpan: 2,
+                                text: item.tipo
+                            },
+                            '');
+                    arrayPDF.push(cedula);
+                    arrayPDF.push(fecha);
+                    arrayPDF.push(tipo);
+                    for(var i=0;i<item.examenes.length;i++){
+                      var nombreExam=[];
+                      var headers=[];
+                      nombreExam.push({ text: item.examenes[i].nombre, style: 'tableHeader', colSpan: 4, alignment: 'center' },{},{},{});
+                      headers.push({ text: 'Parámetro', style: 'tableHeader' }, { text: 'Unidades', style: 'tableHeader'}, { text: 'Resultado', style: 'tableHeader' },{ text: 'Referencias', style: 'tableHeader' });
+                      arrayPDF.push(nombreExam);
+                      arrayPDF.push(headers);
+                      for(var j=0;j<item.examenes[i].resultados.length;j++){
+                        var fila=[];
+                        fila.push(item.examenes[i].resultados[j].parametro,item.examenes[i].resultados[j].unidad,item.examenes[i].resultados[j].resultado.toString(),item.examenes[i].resultados[j].val_ref);
+                        arrayPDF.push(fila);
+                      }
+                    }
+                    return arrayPDF;
+                  }
+                  $scope.PdfExam = function(id) {
+
+                      descargar(id);
+
+                  }
+
+                  function descargar(id) {
+                    $.getJSON("/pacientes/examen/"+id, function(item) {
+                      var docDefinition = {
+                      content:generando(item)
+                      };
+                      pdfMake.createPdf(docDefinition).download('Examen.pdf');
+                      })
+                  }
+
+                });
+
+            </script>
+
+  {{/extend}}

@@ -1,0 +1,42 @@
+.axis path,
+.axis line {
+fill: none;
+stroke: #eee;
+shape-rendering: crispEdges;
+}
+
+.axis text {
+font-size: 78%;
+font-family: "PT Sans";
+
+}
+#contenido{
+	width:70%;
+}
+div.col-sm-9{
+	
+	width:60%;
+}
+#acordeon{
+	width:100%;
+}
+#filtro{
+	width:100%;
+	
+}
+hr{
+  border-top: 2px solid yellowgreen;
+}
+footer{
+	margin-top:4%;
+}
+#filaDeRadios{
+	background-color: #f2f2f2;
+	font-weight: 900;
+}
+#acordeon{
+	margin:10%;
+}
+
+
+

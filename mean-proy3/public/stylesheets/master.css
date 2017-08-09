@@ -1,0 +1,380 @@
+/* ---------------------------------------------------------
+   HTML5
+   This stylesheet contains print the main styles.
+   ---------------------------------------------------------*/
+
+div#slider.flexslider{
+  width: 50%;
+  height: 10%;
+  margin: 0 auto;
+  margin-bottom: 2%
+}
+div#carousel.flexslider{
+  width: 50%;
+
+  margin: 0 auto;
+}
+#map {
+        height: 100%;
+      }
+
+body {
+    /*font-family: 'Open Sans', sans-serif;*/
+    /*font-family: 'Lato', sans-serif;*/
+    font-family: "PT Sans", Arial, serif;/*le cambie la letra*/
+    padding-top: 5%;
+}
+body, html {
+    height: 100%;
+}
+
+/* ---------------------------------------------------------
+   Branny's styles
+   ---------------------------------------------------------*/
+
+header#banner {
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow: auto;
+    /*color: #fff;*/
+}
+#acordeon{
+	width:90%;
+	margin-left: 1%;
+
+}
+#headingOne,#headingTwo,#headingThree{
+	background-color:yellowgreen;
+}
+#borde{
+	border-color:yellowgreen;
+}
+#carrusel{
+	width:90%;
+
+	margin-bottom: 5%;
+}
+
+#cuerpo{
+	padding-top: 1%;
+}
+/*Quitar la flechas en el input*/
+input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button {
+
+    -webkit-appearance: none;
+
+    margin: 0;
+
+}
+
+input[type=number] {
+
+    -moz-appearance:textfield;
+
+}
+
+
+/* The animation code */
+section#cabecera{
+	align:center;
+}
+@keyframes mybanner {
+    0%    {background-image: url('../images/1-4.jpg');}
+    50%   {background-image: url('../images/2.jpg');}
+    100%  {background-image: url('../images/1-4.jpg');}
+
+
+}
+
+/* The element to apply the animation to */
+
+header#banner {
+    background-image: url('../images/2.jpg');
+    animation-name: mybanner;
+    animation-duration: 10s;
+    animation-iteration-count: infinite;
+}
+
+/* menu horizontal */
+
+nav.navbar {
+    background-color: #fff;
+    border: none;
+    padding: 1em;
+    border-radius: 0;
+    border-bottom: 2px solid #777;
+}
+.navbar-default .navbar-brand {
+    color: #000;
+    font-size: 150%;
+    font-weight: 900;
+    padding: 1px;
+    padding-top: 15px;
+    color: #000;
+    border-bottom: 3px solid transparent;
+}
+.navbar-default .navbar-brand>span {
+    color: #00a99d;
+}
+.navbar-default .navbar-nav>li>a {
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 110%;
+    color: #000;
+    padding: 1px;
+    padding-bottom: 10px;
+    padding-top: 15px;
+    margin-left: 1em;
+    margin-right: 1em;
+    border-bottom: 3px solid transparent;
+}
+.navbar-default .navbar-nav>li.action a {
+    color: #89bf00;
+    padding-bottom: 2px;
+    border-bottom: 3px solid #89bf00;
+}
+
+.navbar-default .navbar-nav>li>a:hover {
+    /*color: #6f51c7;*/
+    color: #89bf00;
+    padding-bottom: 2px;
+    border-bottom: 3px solid #89bf00;
+    transition: border-bottom 2s;
+    transition: padding-bottom .5s;
+}
+
+
+/* ---------------------------------------------------------
+   Banner Jumbutron
+   ---------------------------------------------------------*/
+
+section.jumbotron {
+    padding-top: 15em;
+    background-color: transparent;
+    text-align: center;;
+    color: #fff;
+}
+.jumbotron>h1 {
+    text-transform: uppercase;
+    font-weight: 300;
+    letter-spacing: 1.1px;
+}
+
+/*Botones Banner*/
+.btn-big {
+    background-color: transparent;
+    width: 16em;
+    text-transform: uppercase;
+    padding-top: 1.3em;
+    padding-bottom: 1.3em;
+    color: #fff;
+    font-size: 1.1em;
+    font-weight: 900;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+.btn-big.btn-left{
+    background-color: #89bf00;
+    border: 1px solid #89bf00;
+}
+.jumbotron>a.btn-right, .jumbotron>a.btn-right:visited{
+    border: 1px solid #fff;
+    outline: none;
+    color: #fff;
+}
+.jumbotron>a.btn-left:hover {
+    color: #000;
+    transition: color .5s;
+}
+.jumbotron>a.btn-right:hover{
+    background-color: #fff;
+    color: #89bf00;
+    transition: color .5s, background-color .5s;
+}
+.jumbotron>a.btn-right:link {
+    transition: color .5s, background-color .5s;
+}
+.jumbotron>a.btn-left:link {
+    transition: color .5s;
+}
+
+.btn-big.btn-left.btn-small{
+    margin-top: 1em;
+    font-size: 1em;
+    width: 10em;
+    padding: .5em 1.5em;
+    background-color: transparent;
+    color: #000;
+    outline: none;
+}
+.btn-big.btn-left.btn-small:hover{
+    border: 1px solid black;
+}
+/*Botones codigo barra*/
+#contenedor-codigo-barras {
+    margin-left: 200px;
+    margin-bottom: 25px;
+    display: none;
+
+}
+#btn-generar-codigo-barras {
+    position: relative;
+    text-align: center;
+    font-family: "Open Sans";
+    font-size: 125%;
+    width: 50%;
+    opacity: .4;
+    color: black;
+    border-color: black;
+    background: white;
+}
+
+/* Modal */
+.modal-content{
+    padding: 2em;
+}
+.form-control, .form-control:focus{
+    border: 0;
+    border-radius: 0;
+    outline: none;
+    box-shadow: none;
+    border-bottom: 1px solid #89bf00;
+    color: #000;
+}
+.modal-content form .form-footer{
+    text-align: center;
+}
+#btnNuevoPaciente {
+    margin-top: 10px;
+
+}
+#new_paciente {
+    margin-top: 30px;
+    margin-right: 150px;
+    float: right;
+    font-weight: bold;
+}
+
+#table td{
+    text-align: center;
+}
+.btn.btn-default.btn-xs {
+  margin-left: 15px;
+}
+.btn.btn-default {
+    margin-left: 10px;
+}
+.seleccion {
+    margin-left: 270px;
+}
+
+/* ---------------------------------------------------------
+   Section Pacientes
+   ---------------------------------------------------------*/
+
+body>section.container, section#pacientes {
+    font-family: "PT Sans", Arial, serif;
+    padding-top: 5em;
+    padding-bottom: 5em;
+    text-align: center;
+
+}
+section#pacientes>header {
+    padding-bottom: 5em;
+}
+
+#pacientes>.row h1{
+    color: #00a99d;
+}
+#pacientes>.row p{
+    text-align: justify;
+}
+
+
+/* ---------------------------------------------------------
+   Footer principal
+----------------------------------------------------------*/
+footer {
+    padding: 2em 1em;
+    background-color: #00a99d;
+    text-align: center;
+}
+.nav-footer>ul{padding: 0;}
+footer p{color:#fff}
+
+.nav-footer>ul li{
+    display: inline-block;
+    margin: .5em;
+}
+.nav-footer>ul>li>a{
+    display: block;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    color: #fff;
+    text-align: center;
+    font-size: 15px;
+    line-height: 56px;
+    background: transparent;
+    border: 1px solid #fff;
+}
+.nav-footer>ul>li>a:hover{
+    background: #fff;
+    color: #00a99d;
+    transition: color .5s, background .5s
+}
+/* ---------------------------------------------------------
+   Print styles
+   ---------------------------------------------------------*/
+
+@media print {
+    * {
+        color: #000 !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+        background: transparent !important;
+    }
+    html {
+        background-color: #fff;
+    }
+    /* Hide navigation */
+    nav {
+        display: none;
+    }
+    /* Show link destinations in brackets after the link text */
+    a[href]:after {
+        content: " (" attr(href) ") ";
+    }
+    a[href] {
+        font-weight: bold;
+        text-decoration: underline;
+        color: #06c;
+        border: none;
+    }
+    /* Don't show link destinations for JavaScript or internal links */
+    a[href^="javascript:"]:after, a[href^="#"]:after {
+        content: "";
+    }
+    /* Show abbr title value in brackets after the text */
+    abbr[title]:after {
+        content: " (" attr(title) ")";
+    }
+    figure {
+        margin-bottom: 1em;
+        overflow: hidden;
+    }
+    figure img {
+        border: 1px solid #000;
+    }
+}
+
+
+/*Login Modal Desktop device*/
+@media screen and (min-width: 768px) {
+    .modal-dialog {
+        width: 50%;
+        margin: 3% auto;
+    }
+
+}

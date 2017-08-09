@@ -1,0 +1,24 @@
+div.row{
+	margin-bottom:2%;
+	
+}
+input{
+	margin:0 auto;
+	width:80%;
+	
+}
+button.btn.btn-default{
+	
+	background-color:yellowgreen;
+	margin-bottom:2%;
+}
+input#text1{
+	margin-left: 6%;
+	margin-right: 6%;
+	margin-bottom: 2%;
+	border-style: solid;
+    border-color: yellowgreen;
+}
+hr{
+  border-top: 2px solid yellowgreen;
+}
